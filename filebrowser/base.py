@@ -430,10 +430,19 @@ class FileObject():
         return False
 
     # VERSION ATTRIBUTES/PROPERTIES
+    # version
     # is_version
     # versions_basedir
     # original
     # original_filename
+
+    @property
+    def version(self):
+        "Returns version name"
+        tmp = self.filename_root.split("_")
+        if tmp[-1] in VERSIONS:
+            return tmp[-1]
+        return None
 
     @property
     def is_version(self):
@@ -457,6 +466,9 @@ class FileObject():
     def original(self):
         "Returns the original FileObject"
         if self.is_version:
+            # if VERSIONS_BASEDIR:
+            #     relative_path = self.head.replace(os.path.join(self.site.storage.location  elf.versions_basedir, "").lstrip("/")
+            # else:
             relative_path = self.head.replace(self.versions_basedir, "").lstrip("/")
             return FileObject(os.path.join(self.site.directory, relative_path, self.original_filename), site=self.site)
         return self
